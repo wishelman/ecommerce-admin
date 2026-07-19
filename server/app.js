@@ -1,9 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config();
-
-console.log('ENV check — DB_HOST:', process.env.DB_HOST, '| MYSQLHOST:', process.env.MYSQLHOST, '| CLIENT_ORIGIN:', process.env.CLIENT_ORIGIN);
 
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
@@ -17,16 +14,6 @@ app.use(cors({ origin: process.env.CLIENT_ORIGIN || '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-app.get('/api/debug-env', (req, res) => {
-  const relevant = {};
-  for (const [k, v] of Object.entries(process.env)) {
-    if (k.includes('DB') || k.includes('MYSQL') || k.includes('JWT') || k.includes('CLIENT') || k.includes('PORT') || k.includes('NODE')) {
-      relevant[k] = k.includes('PASSWORD') ? '***' : v;
-    }
-  }
-  res.json(relevant);
-});
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
