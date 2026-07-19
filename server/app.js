@@ -22,9 +22,9 @@ app.get('/api/debug-db', async (req, res) => {
     const pool = require('./config/db');
     const [rows] = await pool.query('SELECT 1 as ok');
     const [tables] = await pool.query('SHOW TABLES');
-    res.json({ connected: true, tables: tables.map(t => Object.values(t)[0]), host: process.env.DB_HOST || process.env.MYSQLHOST });
+    res.json({ connected: true, tables: tables.map(t => Object.values(t)[0]) });
   } catch (err) {
-    res.json({ connected: false, error: err.message, host: process.env.DB_HOST || process.env.MYSQLHOST });
+    res.json({ connected: false, error: err.message, env: { DB_HOST: process.env.DB_HOST, DB_PORT: process.env.DB_PORT, DB_USER: process.env.DB_USER, DB_NAME: process.env.DB_NAME, MYSQLHOST: process.env.MYSQLHOST } });
   }
 });
 
