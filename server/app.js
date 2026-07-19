@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+require('dotenv').config();
+
+console.log('ENV check — DB_HOST:', process.env.DB_HOST, '| MYSQLHOST:', process.env.MYSQLHOST, '| CLIENT_ORIGIN:', process.env.CLIENT_ORIGIN);
 
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
