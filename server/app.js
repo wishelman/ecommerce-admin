@@ -17,6 +17,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/api/debug-db', async (req, res) => {
+  try {
+    const pool = require('./config/db');
+    const [rows] = await pool.query('SELECT 1 as ok');
+    const [tables] = await pool.query('SHOW TABLES');
+    res.json({ connected: true, tables: tables.map(t => Object.values(t)[0]), host: process.env.DB_HOST || process.env.MYSQLHOST });
+  } catch (err) {
+    res.json({ connected: false, error: err.message, host: process.env.DB_HOST || process.env.MYSQLHOST });
+  }
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
