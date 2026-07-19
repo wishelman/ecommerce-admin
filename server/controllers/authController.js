@@ -27,6 +27,7 @@ exports.login = async (req, res) => {
       admin: { id: admin.id, username: admin.username, fullname: admin.fullname, email: admin.email }
     });
   } catch (err) {
+    console.error('LOGIN ERROR:', err.message);
     res.status(500).json({ message: err.message });
   }
 };
