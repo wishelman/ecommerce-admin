@@ -18,6 +18,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.get('/api/debug-env', (req, res) => {
+  const relevant = {};
+  for (const [k, v] of Object.entries(process.env)) {
+    if (k.includes('DB') || k.includes('MYSQL') || k.includes('JWT') || k.includes('CLIENT') || k.includes('PORT') || k.includes('NODE')) {
+      relevant[k] = k.includes('PASSWORD') ? '***' : v;
+    }
+  }
+  res.json(relevant);
+});
+
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
 app.use('/api/auth', authRoutes);
