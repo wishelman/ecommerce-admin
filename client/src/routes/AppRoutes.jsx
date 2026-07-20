@@ -1,7 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute';
 import MainLayout from '../components/layout/MainLayout';
-import Login from '../pages/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import ProductList from '../pages/Products/ProductList';
 import AddProduct from '../pages/Products/AddProduct';
@@ -14,17 +12,14 @@ import NotFound from '../pages/NotFound/NotFound';
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route element={<PrivateRoute />}>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/products/add" element={<AddProduct />} />
-          <Route path="/products/edit/:id" element={<EditProduct />} />
-          <Route path="/categories" element={<CategoryList />} />
-          <Route path="/reports" element={<PrintProduct />} />
-          <Route path="/activities" element={<ActivityLog />} />
-        </Route>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/products" element={<ProductList />} />
+        <Route path="/products/add" element={<AddProduct />} />
+        <Route path="/products/edit/:id" element={<EditProduct />} />
+        <Route path="/categories" element={<CategoryList />} />
+        <Route path="/reports" element={<PrintProduct />} />
+        <Route path="/activities" element={<ActivityLog />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

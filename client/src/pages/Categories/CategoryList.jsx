@@ -40,8 +40,13 @@ export default function CategoryList() {
   const handleDelete = async (id) => {
     const c = await Swal.fire({ title: 'Hapus kategori?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Hapus' });
     if (c.isConfirmed) {
-      await deleteCategory(id);
-      load();
+      try {
+        await deleteCategory(id);
+        Swal.fire('Berhasil', 'Kategori dihapus', 'success');
+        load();
+      } catch (err) {
+        Swal.fire('Gagal', err.response?.data?.message || 'Gagal menghapus', 'error');
+      }
     }
   };
 

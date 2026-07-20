@@ -1,44 +1,14 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { getMe } from '../services/authService';
+import { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [admin, setAdmin] = useState(() => {
-    const saved = localStorage.getItem('admin');
-    return saved ? JSON.parse(saved) : null;
-  });
-  const [loading, setLoading] = useState(true);
+  const [admin] = useState({ id: 1, username: 'admin', fullname: 'Administrator', email: 'admin@example.com' });
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token && !admin) {
-      getMe()
-        .then((res) => setAdmin(res.data))
-        .catch(() => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('admin');
-        })
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  const login = (token, adminData) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('admin', JSON.stringify(adminData));
-    setAdmin(adminData);
-  };
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('admin');
-    setAdmin(null);
-  };
+  const logout = () => {};
 
   return (
-    <AuthContext.Provider value={{ admin, setAdmin, login, logout, loading }}>
+    <AuthContext.Provider value={{ admin, logout, loading: false }}>
       {children}
     </AuthContext.Provider>
   );

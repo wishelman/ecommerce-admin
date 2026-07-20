@@ -1,4 +1,6 @@
-export default function InputField({ label, error, icon: Icon, ...props }) {
+import { forwardRef } from 'react';
+
+const InputField = forwardRef(function InputField({ label, error, icon: Icon, ...props }, ref) {
   return (
     <div className="mb-5">
       <label className="block text-base font-medium text-slate-700 mb-1.5">{label}</label>
@@ -9,6 +11,7 @@ export default function InputField({ label, error, icon: Icon, ...props }) {
           </div>
         )}
         <input
+          ref={ref}
           {...props}
           className={`w-full border border-slate-300 rounded-lg px-4 py-3 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition ${Icon ? 'pl-10' : ''}`}
         />
@@ -16,4 +19,6 @@ export default function InputField({ label, error, icon: Icon, ...props }) {
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
-}
+});
+
+export default InputField;

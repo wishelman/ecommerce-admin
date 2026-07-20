@@ -25,9 +25,13 @@ export default function ProductList() {
   const handleDelete = async (id) => {
     const confirm = await Swal.fire({ title: 'Hapus produk?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Hapus' });
     if (confirm.isConfirmed) {
-      await deleteProduct(id);
-      Swal.fire('Berhasil', 'Produk dihapus', 'success');
-      load();
+      try {
+        await deleteProduct(id);
+        Swal.fire('Berhasil', 'Produk dihapus', 'success');
+        load();
+      } catch (err) {
+        Swal.fire('Gagal', err.response?.data?.message || 'Gagal menghapus', 'error');
+      }
     }
   };
 

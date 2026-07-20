@@ -32,7 +32,7 @@ exports.create = async (req, res) => {
       stock: stock || 0,
       image
     });
-    await Activity.create({ admin_id: req.admin.id, activity: `Tambah produk: ${product_name}` });
+    await Activity.create({ admin_id: 1, activity: `Tambah produk: ${product_name}` });
     res.status(201).json({ id, message: 'Produk berhasil ditambahkan' });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -53,7 +53,7 @@ exports.update = async (req, res) => {
       stock: stock || 0,
       image
     });
-    await Activity.create({ admin_id: req.admin.id, activity: `Update produk id ${req.params.id}` });
+    await Activity.create({ admin_id: 1, activity: `Update produk id ${req.params.id}` });
     res.json({ message: 'Produk berhasil diupdate' });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -63,7 +63,7 @@ exports.update = async (req, res) => {
 exports.remove = async (req, res) => {
   try {
     await Product.remove(req.params.id);
-    await Activity.create({ admin_id: req.admin.id, activity: `Hapus produk id ${req.params.id}` });
+    await Activity.create({ admin_id: 1, activity: `Hapus produk id ${req.params.id}` });
     res.json({ message: 'Produk berhasil dihapus' });
   } catch (err) {
     res.status(500).json({ message: err.message });
